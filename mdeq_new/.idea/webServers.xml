@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="3bea4129-8d31-4fb7-8c14-f961a71e7299" name="thaysang">
+        <fileTransfer rootFolder="/home/kc/gianglt/mdeq" accessType="SFTP" host="118.70.176.124" port="8000" sshConfigId="91757a44-4025-4787-af2a-504fd451f596" sshConfig="kc@118.70.176.124:8000 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

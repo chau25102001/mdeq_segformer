@@ -1,0 +1,95 @@
+GPUS: (0,)
+OUTPUT_DIR: 'runs/exp60'
+LOG_DIR: 'log'
+WORKERS: 8
+PRINT_FREQ: 100
+
+MODEL:
+  IMG_SIZE: 352
+  SEGFORMER_VERSION: 'mit_b0'
+  BLOCK_GN_AFFINE: True
+  FUSE_GN_AFFINE: True
+  POST_GN_AFFINE: True
+  DEQ_EXPAND: 5
+  NAME: mdeq
+  PRETRAINED: 'pretrained_models/mdeq_SMALL.pth'
+  NUM_LAYERS: 3
+  NUM_GROUPS: 8
+  DROPOUT: 0.05
+  WNORM: true
+  DOWNSAMPLE_TIMES: 2
+  EXPANSION_FACTOR: 5
+  NUM_CLASSES: 2
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    FULL_STAGE:
+      NUM_MODULES: 1
+      NUM_BRANCHES: 4
+      BLOCK: BASIC
+      BIG_KERNELS:
+      - 0
+      - 0
+      - 0
+      - 0
+      NUM_BLOCKS:
+      - 1
+      - 1
+      - 1
+      - 1
+      NUM_CHANNELS:
+      - 32
+      - 64
+      - 128
+      - 256
+      FUSE_METHOD: SUM   #Attention
+DEQ:
+  F_SOLVER: 'broyden'
+  B_SOLVER: 'broyden'
+  STOP_MODE: 'abs'
+  F_THRES: 10
+  B_THRES: 10
+  SPECTRAL_RADIUS_MODE: false
+  RAND_F_THRES_DELTA: 2
+CUDNN:
+  BENCHMARK: true
+  DETERMINISTIC: false
+  ENABLED: true
+LOSS:
+  USE_OHEM: false
+  OHEMTHRES: 0.9
+  OHEMKEEP: 131072
+  JAC_INCREMENTAL: 100000000
+  PRETRAIN_JAC_LOSS_WEIGHT: 0.002
+  JAC_LOSS_WEIGHT: 0.0005
+  JAC_STOP_EPOCH: 100000000
+  JAC_LOSS_FREQ: 0.4
+DATASET:
+  DATASET: cityscapes
+  ROOT: 'data/'
+  TEST_SET: 'list/cityscapes/val.lst'
+  TRAIN_SET: 'list/cityscapes/train.lst'
+  NUM_CLASSES: 2
+TRAIN:
+  IMAGE_SIZE: 352
+  BATCH_SIZE_PER_GPU: 30
+  SHUFFLE: true
+  BEGIN_EPOCH: 0
+  END_EPOCH: 400
+  RESUME: true
+  OPTIMIZER: sgd
+  LR: 0.000001
+  WD: 0.001
+  MOMENTUM: 0.9
+  NESTEROV: false
+  MULTI_SCALE: true
+  LR_SCHEDULER: 'cosine'
+  DOWNSAMPLERATE: 1
+  PRETRAIN_STEPS: 100
+  IGNORE_LABEL: 255
+  SCALE_FACTOR: 16
+  EXTRA_EPOCH: 0
+TEST:
+  IMAGE_SIZE: 352
+  BATCH_SIZE_PER_GPU: 30
+  FLIP_TEST: false
+  MULTI_SCALE: false
